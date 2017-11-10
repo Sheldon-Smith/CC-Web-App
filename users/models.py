@@ -18,12 +18,12 @@ class UserProfile(models.Model):
     ALUMNI = 'AL'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    grad_year = models.IntegerField(max_length=1,
-                                    blank=False,
+    grad_year = models.IntegerField(blank=False,
                                     null=True,
                                     choices=CLASS_CHOICES,
                                     default=1)
     paid_dues = models.BooleanField(default=False)
+    team = models.ForeignKey('teams.Team', related_name='team', null=True)
 
 
 @receiver(post_save, sender=User)
