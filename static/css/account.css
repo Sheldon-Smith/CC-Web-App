@@ -1,0 +1,16 @@
+body  {
+  background-image: url(../img/dark-triangles.png);
+}
+
+.logo {
+    font-family: 'Barlow', 'sans-serif';
+}
+
+.logo a {
+    color: #6c757d;
+}
+
+.logo a:hover,
+.logo a:active {
+    text-decoration: none;
+}

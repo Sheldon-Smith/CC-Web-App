@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('users', '0005_auto_20171110_0020'),
+        ('account', '0005_auto_20171110_0020'),
     ]
 
     operations = [
@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('wins', models.IntegerField(default=0)),
                 ('losses', models.IntegerField(default=0)),
-                ('captain', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='captain', to='users.UserProfile')),
-                ('keeper', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='keeper', to='users.UserProfile')),
+                ('captain', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='captain', to='account.UserProfile')),
+                ('keeper', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='keeper', to='account.UserProfile')),
             ],
         ),
     ]

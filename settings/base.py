@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,11 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p0%js7w7b0bla(1^nyc=5%@cn4p#!fdd)7n$96hn50$5zp75de'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = []
 
@@ -37,10 +36,12 @@ PREREQ_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'widget_tweaks',
 ]
 
 PROJECT_APPS = [
-    'users',
+    'account',
     'fantasy',
     'stats',
     'core',
@@ -129,7 +130,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Redirection
 
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+# Email
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

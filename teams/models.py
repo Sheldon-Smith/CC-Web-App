@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import UserProfile
+from account.models import UserProfile
 
 
 class Team(models.Model):
