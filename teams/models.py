@@ -1,7 +1,5 @@
 from django.db import models
 
-from account.models import UserProfile
-
 
 class Team(models.Model):
 
@@ -9,5 +7,3 @@ class Team(models.Model):
     description = models.TextField()
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
-    captain = models.ForeignKey(UserProfile, related_name='captain')
-    keeper = models.ForeignKey(UserProfile, related_name='keeper')

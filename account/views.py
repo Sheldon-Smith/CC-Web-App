@@ -13,10 +13,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()
-            user.userprofile.grad_year = form.cleaned_data.get('grad_year')
+            user.grad_year = form.cleaned_data.get('grad_year')
             user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
             account_login(request, user)
             return redirect('home')
     else:
