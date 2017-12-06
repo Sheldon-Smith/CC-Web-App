@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^stats/', include('stats.urls')),
     url(r'^fantasy/', include('fantasy.urls')),
     url(r'^', include('core.urls')),
-    url(r'^', include('teams.urls')),
+    url(r'^', include('game.urls')),
 ]

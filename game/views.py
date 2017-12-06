@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from teams.models import Team
+from game.models import Team
 
 
 def list_teams(request):

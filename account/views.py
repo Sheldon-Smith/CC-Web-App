@@ -1,6 +1,5 @@
 from account.forms import SignUpForm
 
-from django.contrib.auth import authenticate
 from django.contrib.auth import login as account_login
 
 from django.shortcuts import redirect

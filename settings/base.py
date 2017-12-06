@@ -45,7 +45,7 @@ PROJECT_APPS = [
     'fantasy',
     'stats',
     'core',
-    'teams',
+    'game',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
