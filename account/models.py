@@ -29,6 +29,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('grad_year', 2018)
+        extra_fields.setdefault('first_name', 'Administrator')
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -58,10 +59,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+    get_short_name.short_description = "First Name"
 
     def get_full_name(self):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name
+    get_full_name.short_description = "Name"
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def __str__(self):
+        return self.get_full_name()
+
+    def __unicode__(self):
+        return self.get_full_name()

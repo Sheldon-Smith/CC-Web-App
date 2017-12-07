@@ -30,6 +30,8 @@ class UserAdmin(admin.ModelAdmin):
 
     list_display = ['get_full_name', 'is_active', 'paid_dues', 'grad_year']
     ordering = ['first_name']
+    list_filter = ['is_active', 'grad_year', 'paid_dues']
+    search_fields = ['first_name']
 
 
 admin.site.register(User, UserAdmin)
