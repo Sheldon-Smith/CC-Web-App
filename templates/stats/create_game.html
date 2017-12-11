@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheet %}
+    <script src="{% static 'js/stats.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <style>
+    .bs-example div[class^='col'] {
+        border: 1px solid white;
+        background: #f5f5f5;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    </style>
+    <div class="bs-example card">
+        <div class="row" id="team_row">
+            <div class="col-md-6" id="home_team_col">
+                <div class="row form-group">
+                    <div class="col-md-12 bg-info" id="home_team_name">
+                    </div>
+                </div>
+                {% for i in num_iter %}
+                    <div class="row form-group" id="home_player{{ i }}_row">
+                        <div class="col-md-12">
+                            <label>Player {{ i }}:
+                                <select id="home_player{{ i }}" class="form-control players">
+
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6" id="away_team_col">
+                <div class="row form-group">
+                    <div class="col-md-12 bg-danger" id="away_team_name">
+                    </div>
+                </div>
+                {% for i in num_iter %}
+                    <div class="row form-group" id="away_player{{ i }}_row">
+                        <div class="col-md-12">
+                            <label>Player {{ i }}:
+                                <select id="away_player{{ i }}" class="form-control players">
+
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="form-control btn btn-secondary" type="button" title="Add a player to each team" id="addPlayerButton" value="{{ num_players }}">Add a player to each team</button>
+            </div>
+            <div class="col-md-6">
+                <button class="form-control btn btn-secondary" type="button" title="Remove a player from each team" id="removePlayerButton" value="{{ num_players }}">Remove a player from each team</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button class="form-control btn btn-primary" type="button" title="Start Game" id="startGame">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

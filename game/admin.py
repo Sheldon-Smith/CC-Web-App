@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Team, Game, Season
+from .models import Team, Game, Season, Score
 
 
 class PlayerInline(admin.TabularInline):
@@ -40,3 +40,4 @@ class TeamAdmin(admin.ModelAdmin):
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Season, SeasonAdmin)
 admin.site.register(Game)
+admin.site.register(Score)

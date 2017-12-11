@@ -18,6 +18,8 @@ from django.conf.urls import url
 
 from django.contrib import admin
 
+from settings import base
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('account.urls')),
@@ -26,3 +28,7 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('game.urls')),
 ]
+
+if base.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(url(r'^__debug__', include(debug_toolbar.urls)))

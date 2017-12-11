@@ -1,9 +1,18 @@
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.http import JsonResponse
+
 from account.forms import SignUpForm
 
 from django.contrib.auth import login as account_login
 
 from django.shortcuts import redirect
 from django.shortcuts import render
+
+from account.models import User
+from game.models import Game
 
 
 def signup(request):
@@ -19,3 +28,9 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+@login_required
+def get_players(request):
+    if request.method == 'GET':
+        return JsonResponse({'players': list(User.objects.values_list('first_name', 'last_name', 'pk'))})

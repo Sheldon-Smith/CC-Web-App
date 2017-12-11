@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ['192.168.1.20']
+ALLOWED_HOSTS = ['192.168.1.20', 'localhost']
 
 
 # Application definition
@@ -38,6 +38,7 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
+    'debug_toolbar'
 ]
 
 PROJECT_APPS = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'CCSite.urls'
@@ -111,6 +113,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+INTERNAL_IPS = ['127.0.0.1']
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -147,3 +151,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Custom user model
 
 AUTH_USER_MODEL = 'account.User'
+
+# Always update the session since we rely on it so heavily
+
+SESSION_SAVE_EVERY_REQUEST = True

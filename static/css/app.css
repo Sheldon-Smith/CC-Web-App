@@ -1,3 +1,7 @@
+body {
+  background-color: #e0e0e0;
+}
+
 .navbar-brand {
   font-family: 'Barlow', "Times New Roman", sans-serif;
   color: #2e3133;
@@ -14,11 +18,14 @@
   border-right: 2px solid #ccc;
   background-color: #2e2e2e;
   z-index: 1000;
-  -webkit-transform: translateX(-100%);
-  -ms-transform: translateX(-100%);
-  transform: translateX(-100%);
+  -webkit-transform: translateX(-200%);
+  -ms-transform: translateX(-200%);
+  transform: translateX(-200%);
   -webkit-transition: 300ms ease;
   transition: 300ms ease;
+  @include media-breakpoint-up(xs) { width: 85%; }
+  @include media-breakpoint-up(sm) { width: 50%; }
+  @include media-breakpoint-up(md) { width: 25%; }
 }
 
 .navbar-side-item {

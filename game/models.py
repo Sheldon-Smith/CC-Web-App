@@ -77,6 +77,7 @@ class Score(models.Model):
     bottom_gays = models.PositiveIntegerField()
     misses = models.PositiveIntegerField()
     date = models.DateField(_("Date"), default=datetime.date.today)
+    game = models.ForeignKey('Game', related_name='score')
 
 
 class Game(models.Model):
