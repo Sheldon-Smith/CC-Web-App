@@ -137,6 +137,9 @@ def game_state(request):
                 player_total_shots = 0
                 player_total_makes = 0
 
+        if request.session['game_state'] == 'game_over':
+            game_over(request.session)
+            return redirect('home')
         return JsonResponse({'current_player': current_player,
                              'stats_array': stats,
                              'home_cups': home_cups,
