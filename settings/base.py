@@ -155,3 +155,5 @@ AUTH_USER_MODEL = 'account.User'
 # Always update the session since we rely on it so heavily
 
 SESSION_SAVE_EVERY_REQUEST = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'

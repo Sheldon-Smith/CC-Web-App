@@ -1,7 +1,4 @@
-import json
-
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
 from django.http import JsonResponse
 
 from account.forms import SignUpForm
@@ -12,7 +9,6 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from account.models import User
-from game.models import Game
 
 
 def signup(request):

@@ -1,9 +1,13 @@
+from importlib import import_module
 from operator import add
 
-import copy
+from settings import base
 
 from account.models import User
 from game.models import Team, Season, Game, TeamMember, Score
+
+SessionStore = import_module(base.SESSION_ENGINE).SessionStore
+
 
 TOP = 0
 TOP_GAY = 1
@@ -40,19 +44,26 @@ FIELDS = ['in_game',
           'stats_array']
 
 
-def restore_state(session):
-    for key in session['undo_state'].keys():
-        session[key] = session['undo_state'][key]
+def load_game(django_session):
+
+    game_session = django_session.get('game', None)
+    if not game_session:
+        # Initialize an empty dict for the game state
+        django_session['game'] = {}
+    game_session = django_session['game']
+    return game_session
 
 
-def save_state(session):
-    saved_state = {}
-    for field in FIELDS:
-        value = session.get(field)
-        if type(value) == list:
-            value = copy.deepcopy(value)
-        saved_state[field] = value
-    session['undo_state'] = saved_state
+def save_game(django_session, game_session):
+    django_session['game'] = game_session
+
+
+def restore_undo_state(django_session):
+    return django_session.get('undo_game_state', None)
+
+
+def save_undo_state(django_session, game_session):
+    django_session['undo_game_state'] = game_session
 
 
 def init_game(session, body):
@@ -93,8 +104,6 @@ def init_game(session, body):
 
 
 def update_stats(session, body):
-    session['undo'] = 0
-    save_state(session)
     shooters = session['shooters']
     shooter_idx = session['shooter_index']
     current_team_idx = session['current_team_index']
@@ -261,4 +270,3 @@ def game_over(session):
                                  bottom_gays=stats_array[i][j][BOTTOM_GAY],
                                  misses=stats_array[i][j][MISS],
                                  game=game)
-    print(Game.objects.all())

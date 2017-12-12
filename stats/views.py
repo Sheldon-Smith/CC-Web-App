@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
-from stats.game_logic import update_stats, init_game, update_shot_state, update_game_state, restore_state, game_over
+from stats.game_logic import update_stats, init_game, update_shot_state, update_game_state, game_over, \
+    load_game, save_game, restore_undo_state, save_undo_state
 
 BASE_NUM_PLAYERS = 6
 
@@ -17,7 +18,8 @@ MISS = 4
 
 @login_required
 def create_game_view(request):
-    if not request.session.get('in_game', False):
+    session = load_game(request.session)
+    if not session.get('in_game', False):
         value_dict = dict()
         # Start counting from 1
         value_dict['num_iter'] = range(1, BASE_NUM_PLAYERS + 1)
@@ -28,13 +30,15 @@ def create_game_view(request):
 
 @login_required
 def game_view(request):
-    session = request.session
+    session = load_game(request.session)
+    print(session)
     if session.get('in_game', False):
         value_dict = dict()
         value_dict['home_team_name'] = session.get("home_team_name")
         value_dict['away_team_name'] = session.get("away_team_name")
         value_dict['home_team_players'] = session['home_team_players']
         value_dict['away_team_players'] = session['away_team_players']
+        save_game(request.session, session)
         return render(request, 'stats/game.html', value_dict)
     return redirect('create_game_view')
 
@@ -44,7 +48,11 @@ def game_view(request):
 def init_game_logic(request):
     if request.method == "POST":
         body = json.loads(request.body.decode('utf-8'))
-        init_game(request.session, body)
+        session = load_game(request.session)
+        print(session)
+        init_game(session, body)
+        print(session)
+        save_game(request.session, session)
         return JsonResponse({'redirect': '/stats/game'})
     return JsonResponse({'redirect': '/stats/create_game'})
 
@@ -52,26 +60,30 @@ def init_game_logic(request):
 @login_required
 @csrf_exempt
 def quit_game_logic(request):
-    if not request.session.get('in_game', False):
+    session = load_game(request.session)
+    if not session.get('in_game', False):
         return redirect(create_game_view)
-    request.session['in_game'] = False
+    session['in_game'] = False
     save = request.POST['save']
     if save:
-        game_over(request.session)
+        game_over(session)
+    save_game(request.session, session)
     return JsonResponse({'redirect': '/'})
 
 
 @login_required
 @csrf_exempt
 def pull_logic(request):
-    if not request.session.get('in_game', False):
+    session = load_game(request.session)
+    if not session.get('in_game', False):
         return redirect(create_game_view)
     if request.method == "POST":
         body = json.loads(request.body.decode('utf-8'))
         if body['team']:  # away team pull cups
-            request.session['away_team_cups'] -= 1
+            session['away_team_cups'] -= 1
         else:
-            request.session['home_team_cups'] -= 1
+            session['home_team_cups'] -= 1
+        save_game(request.session, session)
         return HttpResponse("OK")
     return HttpResponse("Must be post")
 
@@ -83,12 +95,13 @@ def shot_logic(request):
         return redirect(create_game_view)
     if request.method == "POST":
         body = json.loads(request.body.decode('utf-8'))
-        update_stats(request.session, body)
-        update_shot_state(request.session, body)
-        update_game_state(request.session, body)
-        print(request.session['game_state'])
-        print(request.session['shot_state'])
-        print(request.session['current_team_index'])
+        session = load_game(request.session)
+        session['undo'] = 0
+        save_undo_state(request.session, session)
+        update_stats(session, body)
+        update_shot_state(session, body)
+        update_game_state(session, body)
+        save_game(request.session, session)
         return HttpResponse("OK")
     return HttpResponse("Must be POST")
 
@@ -98,21 +111,22 @@ def game_state(request):
     if not request.session.get('in_game', False):
         return redirect(create_game_view)
     if request.method == "GET":
-        stats = request.session['stats_array']
-        current_player = request.session['shooter_index']
-        current_player = request.session['shooters'][current_player]
-        current_team_idx = request.session['current_team_index']
+        session = load_game(request.session)
+        stats = session['stats_array']
+        current_player = session['shooter_index']
+        current_player = session['shooters'][current_player]
+        current_team_idx = session['current_team_index']
         if current_team_idx:  # Away team is shooting
-            current_player = request.session['away_team_players'][current_player][0]
+            current_player = session['away_team_players'][current_player][0]
         else:
-            current_player = request.session['home_team_players'][current_player][0]
-        home_cups = request.session['home_team_cups']
-        away_cups = request.session['away_team_cups']
-        cups_hit = len(request.session['shots_made'])
+            current_player = session['home_team_players'][current_player][0]
+        home_cups = session['home_team_cups']
+        away_cups = session['away_team_cups']
+        cups_hit = len(session['shots_made'])
         if current_team_idx:  # away
-            to_drink = request.session['home_team_players'][request.session['home_to_drink']][0]
+            to_drink = session['home_team_players'][session['home_to_drink']][0]
         else:
-            to_drink = request.session['away_team_players'][request.session['away_to_drink']][0]
+            to_drink = session['away_team_players'][session['away_to_drink']][0]
         percent = int(abs(home_cups-away_cups)/2)
         if home_cups > away_cups:
             away_percent = 50 - percent
@@ -137,9 +151,11 @@ def game_state(request):
                 player_total_shots = 0
                 player_total_makes = 0
 
-        if request.session['game_state'] == 'game_over':
-            game_over(request.session)
+        if session['game_state'] == 'game_over':
+            game_over(session)
+            save_game(request.session, session)
             return redirect('home')
+        save_game(request.session, session)
         return JsonResponse({'current_player': current_player,
                              'stats_array': stats,
                              'home_cups': home_cups,
@@ -154,11 +170,12 @@ def game_state(request):
 @login_required
 @csrf_exempt
 def undo_logic(request):
-    if not request.session['undo']:
-        print("undo")
-        request.session['undo'] = 1
-        restore_state(request.session)
+    session = load_game(request.session)
+    if not session['undo']:
+        session['undo'] = 1
+        session = restore_undo_state(request.session)
+        if session:
+            save_game(request.session, session)
         return HttpResponse("OK")
     else:
-        print("no undo")
         return HttpResponse("Cannot undo again")
