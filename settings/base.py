@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import django_heroku
 
 from decouple import config
 
@@ -157,3 +158,6 @@ AUTH_USER_MODEL = 'account.User'
 SESSION_SAVE_EVERY_REQUEST = True
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
