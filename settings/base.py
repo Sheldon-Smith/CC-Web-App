@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ['192.168.1.20', 'localhost']
+ALLOWED_HOSTS = ['https://tranquil-ridge-70540.herokuapp.com']
 
 
 # Application definition
