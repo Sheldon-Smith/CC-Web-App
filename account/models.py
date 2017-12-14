@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('Email'), unique=True)
     first_name = models.CharField(_('First Name'), max_length=30)
     last_name = models.CharField(_('Last Name'), max_length=30)
-    grad_year = models.PositiveIntegerField(_('Graduation year'))
+    grad_year = models.PositiveIntegerField(_('College graduation year'))
     paid_dues = models.BooleanField(_('Paid dues'), default=False)
     is_active = models.BooleanField(_('active'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
