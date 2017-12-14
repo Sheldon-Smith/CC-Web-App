@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ['https://tranquil-ridge-70540.herokuapp.com']
+ALLOWED_HOSTS = ['https://ccleague.herokuapp.com']
 
 
 # Application definition
@@ -83,6 +83,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CCSite.wsgi.application'
 
+
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ccsite',
+        'USER': 'shsmi',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -100,6 +116,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+INTERNAL_IPS = ['127.0.0.1']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
