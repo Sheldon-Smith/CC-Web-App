@@ -29,6 +29,6 @@ urlpatterns = [
     url(r'^', include('game.urls')),
 ]
 
-if base.DEBUG:
-    import debug_toolbar
-    urlpatterns.append(url(r'^__debug__', include(debug_toolbar.urls)))
+# if base.DEBUG:
+#     import debug_toolbar
+#     urlpatterns.append(url(r'^__debug__', include(debug_toolbar.urls)))

@@ -39,7 +39,7 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
-    'debug_toolbar'
+    #'debug_toolbar'
 ]
 
 PROJECT_APPS = [
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'CCSite.urls'
@@ -161,7 +161,7 @@ AUTH_USER_MODEL = 'account.User'
 
 SESSION_SAVE_EVERY_REQUEST = True
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
