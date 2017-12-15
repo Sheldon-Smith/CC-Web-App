@@ -108,14 +108,16 @@ def shot_logic(request):
 
 @login_required
 def game_state(request):
-    if not request.session.get('in_game', False):
+    session = load_game(request.session)
+    if not session.get('in_game', False):
         return redirect(create_game_view)
     if request.method == "GET":
-        session = load_game(request.session)
         stats = session['stats_array']
         current_player = session['shooter_index']
         current_player = session['shooters'][current_player]
         current_team_idx = session['current_team_index']
+        print(current_team_idx)
+        print(current_player)
         if current_team_idx:  # Away team is shooting
             current_player = session['away_team_players'][current_player][0]
         else:
