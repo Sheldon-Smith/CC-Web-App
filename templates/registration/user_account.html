@@ -23,10 +23,33 @@
   </div>
   <div class="tab-content p-3 my-3">
       <div class="card-block tab-pane active" id="info" role="tabpanel">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
       </div>
       <div class="card-block tab-pane" id="stats" role="tabpanel">
-        <p class="card-text">Stats</p>
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Game</th>
+                        <th>Top</th>
+                        <th>Top Gay</th>
+                        <th>Bottom</th>
+                        <th>Bottom Gay</th>
+                        <th>Shot Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for score in scores %}
+                    <tr>
+                        <td>{{ score.game }}</td>
+                        <td class="align-middle">{{ score.top_makes }}</td>
+                        <td class="align-middle">{{ score.top_gays }}</td>
+                        <td class="align-middle">{{ score.bottom_makes }}</td>
+                        <td class="align-middle">{{ score.bottom_gays }}</td>
+                        <td class="align-middle">{{ score.get_shot_percentage }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
       </div>
       {% if user == user_account %}
           <div class="card-block tab-pane" id="settings" role="tabpanel">

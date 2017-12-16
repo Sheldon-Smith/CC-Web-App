@@ -9,6 +9,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.shortcuts import render
 
 from account.models import User
+from game.models import Score
 
 
 def signup(request):
@@ -34,4 +35,7 @@ def get_players(request):
 
 def user_account(request, name, pk):
     user = get_object_or_404(User, first_name=name, pk=pk)
-    return render(request, 'registration/user_account.html', {'user_account': user})
+    scores = Score.objects.filter(user=user)
+    return render(request, 'registration/user_account.html',
+                  {'user_account': user,
+                   'scores': scores})
