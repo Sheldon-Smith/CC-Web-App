@@ -91,11 +91,11 @@ def pull_logic(request):
 @login_required
 @csrf_exempt
 def shot_logic(request):
-    if not request.session.get('in_game', False):
+    session = load_game(request.session)
+    if not session.get('in_game', False):
         return redirect(create_game_view)
     if request.method == "POST":
         body = json.loads(request.body.decode('utf-8'))
-        session = load_game(request.session)
         session['undo'] = 0
         save_undo_state(request.session, session)
         update_stats(session, body)

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+Teams
+{% endblock %}
+
+
+{% block content %}
+<div class="card cc-card my-4">
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>Wins</th>
+                <th>Losses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td>
+                    <a href="{% url 'view_team' team.name %}">{{ team.name }}</a>
+                </td>
+                <td class="align-middle">{{ team.wins }}</td>
+                <td class="align-middle">{{ team.losses }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

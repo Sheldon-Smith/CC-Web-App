@@ -1,0 +1,29 @@
+{%  extends 'base.html' %}
+
+{% block title %}
+Players
+{%  endblock %}
+
+{% block content %}
+<div class="cc-card card my-4">
+    <div class="card-body">
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Name</th>
+                    <th>Grad year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in players %}
+                <tr>
+                    <td>
+                        <a href="{% url 'user_account' player.first_name player.pk %}">{{ player.get_full_name }}</a>                </td>
+                    <td class="align-middle">{{ player.grad_year }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{%  endblock %}

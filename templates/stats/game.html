@@ -5,20 +5,13 @@
 {% endblock %}
 {% block content %}
     <style>
-    .bs-example div[class^='col'] {
-        border: 1px solid white;
-        background: #f5f5f5;
-        text-align: center;
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
     #undo {
         cursor: pointer;
     }
     </style>
     <div class="modal fade" id="quitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content bs-example">
+        <div class="modal-content cc-card">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to quit?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -45,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="bs-example card">
+    <div class="cc-card card my-4">
         <div class="row">
             <div class="col-3">
                <span id="undo"><i class="fa fa-undo fa-2x" id="undo_icon" aria-hidden="true"></i></span>
@@ -103,7 +96,7 @@
             </div>
         </div>
     </div>
-    <div class="bs-example card">
+    <div class="cc-card card my-4">
         <div class="row" id="score_container">
             <div class="col-md-6">
                 <div class="row" id="home_team_row">
@@ -115,7 +108,7 @@
                     <div class="col-md-12 bg-info">
                         <div id="home_team_scores" role="tablist" aria-multiselectable="true">
                             {% for player in home_team_players %}
-                                <div class="card">
+                                <div class="card my-1">
                                     <div class="card-header" role="tab" id="home_player{{ forloop.counter }}">
                                         <h5 class="card-title">
                                             <a data-toggle="collapse" data-parent="#home_team_scores" href="#home_player{{ forloop.counter }}_stats" aria-expanded="true" aria-controls="home_player{{ forloop.counter }}_stats">
@@ -164,7 +157,7 @@
                     <div class="col-md-12 bg-danger">
                         <div id="away_team_scores" role="tablist" aria-multiselectable="true">
                             {% for player in away_team_players %}
-                                <div class="card">
+                                <div class="card my-1">
                                     <div class="card-header" role="tab" id="away_player{{ forloop.counter }}">
                                         <h5 class="card-title">
                                             <a data-toggle="collapse" data-parent="#away_team_scores" href="#away_player{{ forloop.counter }}_stats" aria-expanded="true" aria-controls="away_player{{ forloop.counter }}_stats">

@@ -79,6 +79,14 @@ class Score(models.Model):
     date = models.DateField(_("Date"), default=datetime.date.today)
     game = models.ForeignKey('Game', related_name='score')
 
+    def get_shot_percentage(self):
+        makes = self.top_makes + self.bottom_makes + self.top_gays + self.bottom_gays
+        total_shots = makes + self.misses
+        # TODO Avoid div by zero - probably a method that does this more elegantly
+        if total_shots == 0:
+            total_shots = 1
+        return int(makes/total_shots)
+
 
 class Game(models.Model):
 

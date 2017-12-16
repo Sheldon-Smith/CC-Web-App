@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+
+{% block title %}
+{{ user_account.get_full_name }}
+{% endblock %}
+
+{% block content %}
+<div class="card text-center cc-card my-4">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs nav-fill" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#info" role="tab">Info</a>
+      </li>
+      <li class="nav-item" data-toggle="tab" href="#stats" role="tab">
+        <a class="nav-link" href="#">Stats</a>
+      </li>
+        {% if user == user_account %}
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
+            </li>
+        {% endif %}
+    </ul>
+  </div>
+  <div class="tab-content p-3 my-3">
+      <div class="card-block tab-pane active" id="info" role="tabpanel">
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+      <div class="card-block tab-pane" id="stats" role="tabpanel">
+        <p class="card-text">Stats</p>
+      </div>
+      {% if user == user_account %}
+          <div class="card-block tab-pane" id="settings" role="tabpanel">
+            <p class="card-text">Settings</p>
+          </div>
+      {% endif %}
+  </div>
+</div>
+{% endblock %}
