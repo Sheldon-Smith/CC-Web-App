@@ -167,8 +167,5 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
 
 
-# Email
-
-SEND
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
