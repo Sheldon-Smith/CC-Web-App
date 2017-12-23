@@ -28,7 +28,7 @@ SENDGRID_SANDBOX_MODE = DEBUG
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
-ALLOWED_HOSTS = ['https://ccleague.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 
 # Application definition
