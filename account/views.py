@@ -12,6 +12,11 @@ from account.models import User
 from game.models import Score
 
 
+EMAIL_SUBJECT = '[CCLeague] Account Creation'
+EMAIL_CONTENT = 'Thank you for creating a CCLeague account. ' \
+                'The commissioner has been notified and will activate your account shortly.'
+
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -20,6 +25,7 @@ def signup(request):
             user.refresh_from_db()
             user.grad_year = form.cleaned_data.get('grad_year')
             user.save()
+            user.email_user(EMAIL_SUBJECT, EMAIL_CONTENT)
             account_login(request, user)
             return redirect('home')
     else:

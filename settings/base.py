@@ -24,6 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=True)
+SENDGRID_SANDBOX_MODE = DEBUG
+
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
 ALLOWED_HOSTS = ['https://ccleague.herokuapp.com']
 
@@ -151,7 +154,7 @@ LOGIN_URL = 'login'
 
 # Email
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 
 # Custom user model
 
@@ -163,5 +166,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
 
+
+# Email
+
+SEND
 # Configure Django App for Heroku.
 django_heroku.settings(locals())
