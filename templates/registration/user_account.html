@@ -11,8 +11,8 @@
       <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#info" role="tab">Info</a>
       </li>
-      <li class="nav-item" data-toggle="tab" href="#stats" role="tab">
-        <a class="nav-link" href="#">Stats</a>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#stats" role="tab">Stats</a>
       </li>
         {% if user == user_account %}
             <li class="nav-item">
@@ -30,22 +30,22 @@
                 <thead class="thead-inverse">
                     <tr>
                         <th>Game</th>
-                        <th>Top</th>
-                        <th>Top Gay</th>
-                        <th>Bottom</th>
-                        <th>Bottom Gay</th>
+                        <th>Date</th>
                         <th>Shot Percentage</th>
+                        {% if user == user_account %}
+                            <th>Delete</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for score in scores %}
                     <tr>
-                        <td>{{ score.game }}</td>
-                        <td class="align-middle">{{ score.top_makes }}</td>
-                        <td class="align-middle">{{ score.top_gays }}</td>
-                        <td class="align-middle">{{ score.bottom_makes }}</td>
-                        <td class="align-middle">{{ score.bottom_gays }}</td>
+                        <td>{{ score.game }}<small class="text-muted d-block">Click for detailed stats</small></td>
+                        <td>{{ score.date }}</td>
                         <td class="align-middle">{{ score.get_shot_percentage }}</td>
+                        {% if user == user_account %}
+                        <td class="align-middle"><button class="btn btn-danger delete_score" id="{{ score.pk }}">Delete</button></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

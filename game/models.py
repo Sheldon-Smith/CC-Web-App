@@ -85,7 +85,7 @@ class Score(models.Model):
         # TODO Avoid div by zero - probably a method that does this more elegantly
         if total_shots == 0:
             total_shots = 1
-        return int(makes/total_shots)
+        return int(makes/total_shots*100)
 
 
 class Game(models.Model):
