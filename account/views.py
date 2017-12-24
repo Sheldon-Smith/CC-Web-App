@@ -25,7 +25,7 @@ def signup(request):
             user.refresh_from_db()
             user.grad_year = form.cleaned_data.get('grad_year')
             user.save()
-            # user.email_user(EMAIL_SUBJECT, EMAIL_CONTENT)
+            user.email_user(EMAIL_SUBJECT, EMAIL_CONTENT)
             account_login(request, user)
             return redirect('home')
     else:

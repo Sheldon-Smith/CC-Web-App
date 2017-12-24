@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return full_name
     get_full_name.short_description = "Name"
 
-    def email_user(self, subject, message, from_email='ccleague.herokuapp.com', **kwargs):
+    def email_user(self, subject, message, from_email='app82983750@heroku.com', **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def __str__(self):
