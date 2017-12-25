@@ -1,15 +1,41 @@
+from django import forms
 from django.contrib import admin
 
 # Register your models here.
+from django.contrib.admin.helpers import ActionForm
+from django.core.mail import send_mass_mail
+
 from account.models import User
+
+EMAIL = 'app82983750@heroku.com'
+
+
+class SendEmailForm(ActionForm):
+    subject = forms.CharField(required=False)
+    message = forms.CharField(widget=forms.Textarea, required=False)
 
 
 class UserAdmin(admin.ModelAdmin):
 
-    actions = ['mark_paid_dues', 'unmark_paid_dues', 'set_as_active', 'set_as_inactive']
+    action_form = SendEmailForm
+
+    actions = ['mark_paid_dues', 'unmark_paid_dues', 'set_as_active', 'set_as_inactive', 'send_users_mail']
+
+    def send_users_mail(self, request, queryset, subject=None, body=None):
+        subject = '[CCLeague] ' + request.POST['subject']
+        body = request.POST['message'] + "\n - The Commissioner"
+        datatuple = []
+        # Do it this way so each email is individual rather than showing other recipients
+        for user in queryset:
+            datatuple.append((subject, body, EMAIL, [user.email]))
+        datatuple = tuple(datatuple)
+        send_mass_mail(datatuple)
+        self.message_user(request, "Successfully emailed selected users.")
+    send_users_mail.short_description = "Send selected users an email"
 
     def mark_paid_dues(self, request, queryset):
         rows_updated = queryset.update(paid_dues=True)
+        self.send_users_mail(request, queryset, "Dues", "Your dues have been confirmed as paid.")
         self.message_user(request, "Successfully marked %s user(s) dues as paid." % rows_updated)
     mark_paid_dues.short_description = "Mark selected users dues as paid"
 
@@ -20,6 +46,9 @@ class UserAdmin(admin.ModelAdmin):
 
     def set_as_active(self, request, queryset):
         rows_updated = queryset.update(is_active=True)
+        self.send_users_mail(request, queryset, "Your account has been activated",
+                             "Your account has been reviewed and determined to be a valid member of the CCLeague. "
+                             "You may now login to the site at http://www.ccleague.herokuapp.com")
         self.message_user(request, "Successfully marked %s user(s) as active." % rows_updated)
     set_as_active.short_description = "Set selected users as active"
 
