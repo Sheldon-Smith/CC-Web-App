@@ -9,8 +9,8 @@ from account.models import User
 from game.models import Team, Game, Season
 
 
-def view_team(request, name):
-    team = get_object_or_404(Team, name=name)
+def view_team(request, pk):
+    team = get_object_or_404(Team, pk=pk)
     return render(request, 'game/view_team.html', {'team': team})
 
 

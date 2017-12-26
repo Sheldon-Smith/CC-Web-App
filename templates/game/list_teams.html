@@ -18,7 +18,7 @@ Teams
             {% for team in teams %}
             <tr>
                 <td>
-                    <a href="{% url 'view_team' team.name %}">{{ team.name }}</a>
+                    <a href="{% url 'view_team' team.pk %}">{{ team.name }}</a>
                 </td>
                 <td class="align-middle">{{ team.wins }}</td>
                 <td class="align-middle">{{ team.losses }}</td>
