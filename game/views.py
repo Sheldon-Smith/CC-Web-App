@@ -54,6 +54,7 @@ class TeamListView(ListView):
 class TeamMemberListView(ListView):
     model = Team
     context_object_name = 'teams'
+    queryset = model.objects.exclude(name='Blue').exclude(name='Red')
     template_name = 'game/view_team.html'
 
 
