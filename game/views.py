@@ -46,15 +46,15 @@ def get_teams(request):
 
 
 class TeamListView(ListView):
-    model = Team
+    queryset = Team.objects.exclude(name="Blue").exclude(name="Red")
     context_object_name = 'teams'
     template_name = 'game/list_teams.html'
 
 
 class TeamMemberListView(ListView):
 
+    model = Team
     context_object_name = 'teams'
-    queryset = Team.objects.exclude(name='Blue').exclude(name='Red')
     template_name = 'game/view_team.html'
 
 
