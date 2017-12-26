@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Schedule
+{% endblock %}
+{%  block stylesheet %}
+    <script src="{% static 'js/schedule.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="card cc-card my-4">
+    <div class="card-header">
+        <h3 class="card-title text-center">Schedule</h3>
+        <div class="card-subtitle text-right">
+            <label>Season: <select id="seasons">
+                {% for season in seasons %}
+                <option value="{{ season.pk }}">{{ season.year }}</option>
+                {% endfor %}
+            </select>
+            </label>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-list">
+            <thead>
+                <tr>
+                    <th>Home</th>
+                    <th>Away</th>
+                </tr>
+            </thead>
+            <tbody id="schedule">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <ul class="pagination">
+            {% for week in number_of_weeks %}
+            <li class="page-item {% if week == 1 %}active{% endif %}" id="{{ week }}"><a href="#" class="page-link week-page">{{ week }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

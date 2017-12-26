@@ -14,6 +14,26 @@ def view_team(request, name):
     return render(request, 'game/view_team.html', {'team': team})
 
 
+def schedule(request):
+    seasons = Season.objects.all().exclude(name='Casual')
+    return render(request, 'game/schedule.html', {'seasons': seasons,
+                                                  'number_of_weeks': range(1, 1 + seasons[0].number_of_weeks)})
+
+
+def update_schedule(request):
+    season_id = request.GET['season']
+    week = request.GET['week']
+    season = Season.objects.get(id=season_id)
+    week_schedule = Game.objects.filter(season_id=season_id).filter(week=week)
+    teams = []
+    for game in week_schedule:
+        teams.append({'home_team': list(Team.objects.filter(pk=game.home_team.pk).values()),
+                      'away_team': list(Team.objects.filter(pk=game.away_team.pk).values())})
+
+    return JsonResponse({'schedule': teams,
+                         'weeks': list(range(1, 1 + season.number_of_weeks))})
+
+
 @login_required
 def get_teams(request):
     if request.method == "GET":

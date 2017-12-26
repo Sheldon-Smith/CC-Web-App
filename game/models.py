@@ -10,6 +10,7 @@ class Season(models.Model):
 
     name = models.CharField(max_length=30)
     year = models.PositiveIntegerField()
+    number_of_weeks = models.PositiveIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -42,6 +43,14 @@ class Statkeeper(models.Model):
         return self.statkeeper.get_full_name()
 
 
+class TeamInfo(models.Model):
+
+    team = models.ForeignKey('Team')
+    name = models.CharField(max_length=30)
+    description = models.TextField(blank=True, null=True)
+    season = models.ForeignKey('Season')
+
+
 class Team(models.Model):
 
     name = models.CharField(max_length=30)
@@ -52,6 +61,7 @@ class Team(models.Model):
     keeper = models.ForeignKey(User, related_name='keeper', blank=True, null=True)
     players = models.ManyToManyField('account.User', through='TeamMember', related_name="players")
     statkeepers = models.ManyToManyField('account.User', through='Statkeeper', related_name="statkeepers" )
+    division = models.CharField(max_length=4, choices=(("Pink", "Pink"), ("Blue", "Blue")), blank=True, null=True)
 
     def __unicode__(self):
         return self.get_name()
