@@ -8,7 +8,8 @@ function update_schedule (season, week, schedule) {
             $.each(data['schedule'], function (index, week) {
                 home_division = (week.home_team[0].division === 'Blue') ? "Blue" : "Pink";
                 away_division = (week.away_team[0].division === 'Blue') ? "Blue" : "Pink";
-                schedule.append('<tr><td style="background-color: ' + home_division + ';">' + week.home_team[0].name + '</td>' + '<td style="background-color: ' + away_division + ';">' + week.away_team[0].name + '</td>');
+                schedule.append('<tr class="game" data-href="/stats/create_game?home_team_name=' + week.home_team[0].name + '&away_team_name=' + week.away_team[0].name + '"><td style="background-color: ' + home_division + ';">' + week.home_team[0].name + ' \
+                    </td>' + '<td style="background-color: ' + away_division + ';">' + week.away_team[0].name + '</td></a></tr>');
             });
             var week_container = week.parent();
             var id = week.attr('id');
@@ -32,6 +33,12 @@ $(document).ready(function () {
     seasons.change(function () {
         update_schedule(seasons.val(), week, schedule)
     });
+
+
+    $(document).on('click', '.game', function () {
+        window.location = $(this).data('href');
+    });
+
 
     $('.pagination').on('click', '.page-item', function () {
        week.attr('class', 'page-item');

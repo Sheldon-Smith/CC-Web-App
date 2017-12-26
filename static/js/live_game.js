@@ -109,7 +109,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/stats/quit_logic/',
             method: "POST",
-            data: {'save': false},
+            data: {'save': 0},
             success: function (data) {
                 window.location.href = data['redirect'];
             }
@@ -120,7 +120,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/stats/quit_logic/',
             method: "POST",
-            data: {'save': true},
+            data: {'save': 1},
             success: function (data) {
                 window.location.href = data['redirect'];
             }

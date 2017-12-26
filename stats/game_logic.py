@@ -247,6 +247,8 @@ def update_game_state(session, body):
 def game_over(session):
     home_team_name = session['home_team_name']
     away_team_name = session['away_team_name']
+    import ipdb
+    ipdb.set_trace()
     home_team = Team.objects.get(name=home_team_name)
     away_team = Team.objects.get(name=away_team_name)
     season = Season.objects.get(name="Casual")

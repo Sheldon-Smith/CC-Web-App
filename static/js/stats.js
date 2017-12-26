@@ -1,4 +1,5 @@
-var players;
+var home_players;
+var away_players;
 var numPlayers;
 
 function addPlayer() {
@@ -17,12 +18,14 @@ function addPlayer() {
             </div> \
         </div>'
     );
-    $.each(players, function (index, player) {
+    $.each(home_players, function (index, player) {
         var home_player = "home_player" + numPlayers;
-        var away_player = "away_player" + numPlayers;
        $("#"+home_player).append(
            $("<option></option>").text(player[0] + ' ' + player[1]).val(player[2])
        );
+    });
+    $.each(away_players, function (index, player) {
+        var away_player = "away_player" + numPlayers;
        $("#"+away_player).append(
            $("<option></option>").text(player[0] + ' ' + player[1]).val(player[2])
        );
@@ -39,11 +42,22 @@ $(document).ready(function () {
    $.ajax({
        type: "GET",
        url: '/get_players',
+       data: {'home_team_name': $('#home_team_name').text(),
+              'away_team_name': $('#away_team_name').text()},
        success: function (data) {
-           players = data['players'];
-           $.each($(".players"), function (index, dropdown) {
+           home_players = data['home_players'];
+           away_players = data['away_players'];
+           $.each($(".home_players"), function (index, dropdown) {
                dropdown = $(this);
-                $.each(players, function (index, player) {
+                $.each(home_players, function (index, player) {
+                   dropdown.append(
+                       $("<option></option>").text(player[0] + ' ' + player[1]).val(player[2])
+                   );
+               });
+           });
+           $.each($(".away_players"), function (index, dropdown) {
+               dropdown = $(this);
+                $.each(away_players, function (index, player) {
                    dropdown.append(
                        $("<option></option>").text(player[0] + ' ' + player[1]).val(player[2])
                    );
@@ -51,18 +65,6 @@ $(document).ready(function () {
            });
        }
    });
-
-   $.ajax({
-       type: "GET",
-       url: '/get_teams',
-       data: {'game_type': 'casual'},
-       success: function (data) {
-           $("#home_team_name").text(data['home_team_name']);
-           $("#away_team_name").text(data['away_team_name']);
-
-       }
-   });
-
 
    addPlayerButton.click(addPlayer);
    $("#removePlayerButton").click(function () {

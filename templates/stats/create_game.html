@@ -8,14 +8,13 @@
         <div class="row" id="team_row">
             <div class="col-md-6" id="home_team_col">
                 <div class="row form-group">
-                    <div class="col-md-12 bg-info" id="home_team_name">
-                    </div>
+                    <div class="col-md-12 bg-info" id="home_team_name">{{ home_team_name }}</div>
                 </div>
                 {% for i in num_iter %}
                     <div class="row form-group" id="home_player{{ i }}_row">
                         <div class="col-md-12">
                             <label>Player {{ i }}:
-                                <select id="home_player{{ i }}" class="form-control players">
+                                <select id="home_player{{ i }}" class="form-control home_players">
 
                                 </select>
                             </label>
@@ -25,14 +24,13 @@
             </div>
             <div class="col-md-6" id="away_team_col">
                 <div class="row form-group">
-                    <div class="col-md-12 bg-danger" id="away_team_name">
-                    </div>
+                    <div class="col-md-12 bg-danger" id="away_team_name">{{ away_team_name }}</div>
                 </div>
                 {% for i in num_iter %}
                     <div class="row form-group" id="away_player{{ i }}_row">
                         <div class="col-md-12">
                             <label>Player {{ i }}:
-                                <select id="away_player{{ i }}" class="form-control players">
+                                <select id="away_player{{ i }}" class="form-control away_players">
 
                                 </select>
                             </label>

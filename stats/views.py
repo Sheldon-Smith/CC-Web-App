@@ -20,8 +20,15 @@ MISS = 4
 def create_game_view(request):
     session = load_game(request.session)
     if not session.get('in_game', False):
+        home_team_name = "Blue"
+        away_team_name = "Red"
+        if request.GET['home_team_name']:
+            home_team_name = request.GET['home_team_name']
+            away_team_name = request.GET['away_team_name']
         value_dict = dict()
         # Start counting from 1
+        value_dict['home_team_name'] = home_team_name
+        value_dict['away_team_name'] = away_team_name
         value_dict['num_iter'] = range(1, BASE_NUM_PLAYERS + 1)
         value_dict['num_players'] = BASE_NUM_PLAYERS
         return render(request, 'stats/create_game.html', value_dict)
@@ -31,7 +38,6 @@ def create_game_view(request):
 @login_required
 def game_view(request):
     session = load_game(request.session)
-    print(session)
     if session.get('in_game', False):
         value_dict = dict()
         value_dict['home_team_name'] = session.get("home_team_name")
@@ -49,9 +55,7 @@ def init_game_logic(request):
     if request.method == "POST":
         body = json.loads(request.body.decode('utf-8'))
         session = load_game(request.session)
-        print(session)
         init_game(session, body)
-        print(session)
         save_game(request.session, session)
         return JsonResponse({'redirect': '/stats/game'})
     return JsonResponse({'redirect': '/stats/create_game'})
@@ -65,7 +69,7 @@ def quit_game_logic(request):
         return redirect(create_game_view)
     session['in_game'] = False
     save = request.POST['save']
-    if save:
+    if int(save):
         game_over(session)
     save_game(request.session, session)
     return JsonResponse({'redirect': '/'})
