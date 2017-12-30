@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
+from game.models import Game
 from stats.game_logic import update_stats, init_game, update_shot_state, update_game_state, game_over, \
     load_game, save_game, restore_undo_state, save_undo_state
 
@@ -22,9 +23,11 @@ def create_game_view(request):
     if not session.get('in_game', False):
         home_team_name = "Blue"
         away_team_name = "Red"
-        if request.GET['home_team_name']:
-            home_team_name = request.GET['home_team_name']
-            away_team_name = request.GET['away_team_name']
+        if request.GET['game']:
+            game_id = request.GET['game']
+            game = Game.objects.get(pk=game_id)
+            home_team_name = game.home_team.name
+            away_team_name = game.away_team.name
         value_dict = dict()
         # Start counting from 1
         value_dict['home_team_name'] = home_team_name
