@@ -28,7 +28,8 @@ def update_schedule(request):
     teams = []
     for game in week_schedule:
         teams.append({'home_team': list(Team.objects.filter(pk=game.home_team.pk).values()),
-                      'away_team': list(Team.objects.filter(pk=game.away_team.pk).values())})
+                      'away_team': list(Team.objects.filter(pk=game.away_team.pk).values()),
+                      'game_id': game.pk})
 
     return JsonResponse({'schedule': teams,
                          'weeks': list(range(1, 1 + season.number_of_weeks))})
