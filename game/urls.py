@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^players/$', team_views.PlayerListView.as_view(), name='list_players'),
     url(r'^schedule/$', team_views.schedule, name='schedule'),
     url(r'^schedule/update_schedule/$', team_views.update_schedule, name='update_schedule'),
+    url(r'^teams/(?P<pk>\d+)/team_schedule/$', team_views.team_schedule, name='team_schedule'),
 ]

@@ -1,34 +1,81 @@
 {%  extends 'base.html' %}
+{% load static %}
 {% block title %}
     {{ team.name }}
+{% endblock %}
+{%  block stylesheet %}
+    <script src="{% static 'js/view_team.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="card cc-card my-4">
-    <table class="table">
-        <thead class="thead-inverse">
-            <tr>
-                <th>Name</th>
-                <th>Shot Percentage</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for player in team.players.all %}
-            <tr>
-                <td>
-                    <a href="{% url 'user_account' player.first_name player.pk %}">{{ player.get_full_name }}</a>
-                    {% if team.captain == player %}
-                          <small class="text-muted d-block">Captain</small>
-                    {% endif %}
-                    {% if team.keeper == player %}
-                          <small class="text-muted d-block">Keeper</small>
-                    {% endif %}
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs nav-fill" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#players" role="tab">Players</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#games" role="tab">Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#history" role="tab">History</a>
+          </li>
+            {% if team.captain == user %}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#manage" role="tab">Manage Team</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="tab-content p-3 my-3">
+        {% if team.captain == user %}
+            <div class="card-block tab-pane" id="manage" role="tabpanel">
+                <p> Manage </p>
+            </div>
+        {% endif %}
+        <div class="card-block tab-pane" id="games" role="tabpanel">
+            <table id="team_schedule_table" data-team="{{ team.pk }}" class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Home</th>
+                        <th>Away</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule_body">
+                
+                </tbody>
+            </table>
+        </div>
+        <div class="card-block tab-pane" id="history" role="tabpanel">
+            <p> History </p>
+        </div>
+        <div class="card-block tab-pane active" id="players" role="tabpanel">
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Name</th>
+                        <th>Shot Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in team.players.all %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'user_account' player.first_name player.pk %}">{{ player.get_full_name }}</a>
+                            {% if team.captain == player %}
+                                  <small class="text-muted d-block">Captain</small>
+                            {% endif %}
+                            {% if team.keeper == player %}
+                                  <small class="text-muted d-block">Keeper</small>
+                            {% endif %}
 
-                </td>
-                <td class="align-middle">0</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                        </td>
+                        <td class="align-middle">0</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
