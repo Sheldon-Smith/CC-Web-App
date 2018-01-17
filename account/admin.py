@@ -22,8 +22,10 @@ class UserAdmin(admin.ModelAdmin):
     actions = ['mark_paid_dues', 'unmark_paid_dues', 'set_as_active', 'set_as_inactive', 'send_users_mail']
 
     def send_users_mail(self, request, queryset, subject=None, body=None):
-        subject = '[CCLeague] ' + request.POST['subject']
-        body = request.POST['message'] + "\n - The Commissioner"
+        if not subject:
+            subject = '[CCLeague] ' + request.POST['subject']
+        if not body:
+            body = request.POST['message'] + "\n - The Commissioner"
         emails = []
         for user in queryset:
             emails.append(user.email)
