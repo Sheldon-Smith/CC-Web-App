@@ -24,8 +24,11 @@ class UserAdmin(admin.ModelAdmin):
     def send_users_mail(self, request, queryset, subject=None, body=None):
         subject = '[CCLeague] ' + request.POST['subject']
         body = request.POST['message'] + "\n - The Commissioner"
-        emails = list(queryset)
-        send_mass_mail((subject, body, EMAIL, emails))
+        emails = []
+        for user in queryset:
+            emails.append(user.email)
+        message = (subject, body, EMAIL, emails)
+        send_mass_mail((message,))
         self.message_user(request, "Successfully emailed selected users.")
     send_users_mail.short_description = "Send selected users an email"
 
