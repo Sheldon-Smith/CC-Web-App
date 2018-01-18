@@ -23,7 +23,7 @@ def create_game_view(request):
     if not session.get('in_game', False):
         home_team_name = "Blue"
         away_team_name = "Red"
-        if request.GET['game']:
+        if request.GET.get('game', False):
             game_id = request.GET['game']
             game = Game.objects.get(pk=game_id)
             home_team_name = game.home_team.name
