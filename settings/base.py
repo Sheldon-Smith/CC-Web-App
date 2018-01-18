@@ -164,7 +164,7 @@ AUTH_USER_MODEL = 'account.User'
 
 SESSION_SAVE_EVERY_REQUEST = True
 
-SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
+SESSION_ENGINE= 'django.contrib.sessions.backends.db'
 
 
 # Configure Django App for Heroku.
