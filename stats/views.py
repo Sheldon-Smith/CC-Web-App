@@ -123,8 +123,6 @@ def game_state(request):
         current_player = session['shooter_index']
         current_player = session['shooters'][current_player]
         current_team_idx = session['current_team_index']
-        print(current_team_idx)
-        print(current_player)
         if current_team_idx:  # Away team is shooting
             current_player = session['away_team_players'][current_player][0]
         else:

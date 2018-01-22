@@ -1,6 +1,8 @@
 from importlib import import_module
 from operator import add
 
+import copy
+
 from settings import base
 
 from game.models import Team, Season, Game, TeamMember, Score
@@ -59,11 +61,11 @@ def save_game(django_session, game_session):
 
 
 def restore_undo_state(django_session):
-    return django_session.get('undo_game_state', None)
+    return django_session['game'].get('undo_state', None)
 
 
 def save_undo_state(django_session, game_session):
-    django_session['undo_game_state'] = game_session
+    django_session['game']['undo_state'] = copy.deepcopy(game_session)
 
 
 def init_game(session, body):
