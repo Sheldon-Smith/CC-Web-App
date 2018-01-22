@@ -6,13 +6,26 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
 from account.models import User
-from game.models import Team, Game, Season
+from game.models import Team, Game, Season, Score
 
 
 def view_team(request, pk):
     team = get_object_or_404(Team, pk=pk)
-    return render(request, 'game/view_team.html', {'team': team})
+    per_dict = {}
+    for player in team.players.all():
+        per_dict[player.id] = get_percentage(player)
+        
+    return render(request, 'game/view_team.html', {'team': team, 'percentages': per_dict})
 
+#TODO: Should Probably be in a model
+def get_percentage(player):
+    percentage = 0
+    total = 0
+    for score in Score.objects.filter(user=player):
+        total = total + 1
+        percentage = percentage + score.get_shot_percentage()
+    if(percentage == 0): return 0
+    return '% ' + str(round(percentage / total, 2))
 
 def schedule(request):
     seasons = Season.objects.all().exclude(name='Casual')

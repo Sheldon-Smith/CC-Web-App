@@ -5,6 +5,7 @@
 {% endblock %}
 {%  block stylesheet %}
     <script src="{% static 'js/view_team.js' %}"></script>
+    <script src="{% static 'js/schedule.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -16,9 +17,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#games" role="tab">Games</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#history" role="tab">History</a>
           </li>
             {% if team.captain == user %}
                 <li class="nav-item">
@@ -46,9 +44,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-block tab-pane" id="history" role="tabpanel">
-            <p> History </p>
-        </div>
         <div class="card-block tab-pane active" id="players" role="tabpanel">
             <table class="table">
                 <thead class="thead-inverse">
@@ -70,7 +65,11 @@
                             {% endif %}
 
                         </td>
-                        <td class="align-middle">0</td>
+                        {% for key, value in percentages.items %} 
+                            {% if key == player.id%}
+                                <td class="align-middle">{{value}}</td>
+                            {% endif %}
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>

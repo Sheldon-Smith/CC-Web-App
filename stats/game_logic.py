@@ -3,8 +3,8 @@ from operator import add
 
 from settings import base
 
-from account.models import User
 from game.models import Team, Season, Game, TeamMember, Score
+from account.models import User
 
 SessionStore = import_module(base.SESSION_ENGINE).SessionStore
 
@@ -249,6 +249,7 @@ def game_over(session):
     away_team_name = session['away_team_name']
     home_team = Team.objects.get(name=home_team_name)
     away_team = Team.objects.get(name=away_team_name)
+    # TODO: Might not be Casual game
     season = Season.objects.get(name="Casual")
     stats_array = session['stats_array']
     game = Game.objects.create(home_team=home_team,
