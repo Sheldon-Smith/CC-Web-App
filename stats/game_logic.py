@@ -70,6 +70,7 @@ def save_undo_state(django_session, game_session):
 
 def init_game(session, body):
     session['in_game'] = True
+    session['game_id'] = body['game_id']
     session['home_team_name'] = body['home_team_name']
     session['away_team_name'] = body['away_team_name']
     session['home_team_cups'] = 100
@@ -249,14 +250,20 @@ def update_game_state(session, body):
 def game_over(session):
     home_team_name = session['home_team_name']
     away_team_name = session['away_team_name']
-    home_team = Team.objects.get(name=home_team_name)
-    away_team = Team.objects.get(name=away_team_name)
-    # TODO: Might not be Casual game
-    season = Season.objects.get(name="Casual")
+    game_id = session['game_id']
+    if game_id == 'None':
+        season = Season.objects.get(name="Casual")
+        home_team = Team.objects.get(name='Blue')
+        away_team = Team.objects.get(name='Red')
+        game = Game.objects.create(home_team=home_team,
+                                   away_team=away_team,
+                                   season=season)
+    else:
+        game = Game.objects.get(pk=int(game_id))
+        home_team = game.home_team
+        away_team = game.away_team
+        season = game.season
     stats_array = session['stats_array']
-    game = Game.objects.create(home_team=home_team,
-                               away_team=away_team,
-                               season=season)
     home_away = ['home_team_players', 'away_team_players']
     home_away_objs = [home_team, away_team]
     for i in range(len(home_away)):

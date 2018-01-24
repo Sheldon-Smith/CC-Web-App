@@ -23,6 +23,7 @@ def create_game_view(request):
     if not session.get('in_game', False):
         home_team_name = "Blue"
         away_team_name = "Red"
+        game_id = None
         if request.GET.get('game', False):
             game_id = request.GET['game']
             game = Game.objects.get(pk=game_id)
@@ -34,6 +35,7 @@ def create_game_view(request):
         value_dict['away_team_name'] = away_team_name
         value_dict['num_iter'] = range(1, BASE_NUM_PLAYERS + 1)
         value_dict['num_players'] = BASE_NUM_PLAYERS
+        value_dict['game_id'] = game_id
         return render(request, 'stats/create_game.html', value_dict)
     return redirect('game_view')
 

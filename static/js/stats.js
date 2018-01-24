@@ -89,7 +89,8 @@ $(document).ready(function () {
             data: JSON.stringify({'home_team_players': homePlayers,
                    'away_team_players': awayPlayers,
                    'home_team_name': $("#home_team_name").text(),
-                   'away_team_name': $("#away_team_name").text()
+                   'away_team_name': $("#away_team_name").text(),
+                   'game_id': $("#game_id").val()
                 }),
             success: function (data) {
                 window.location.href = data.redirect;
