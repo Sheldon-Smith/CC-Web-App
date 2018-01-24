@@ -77,6 +77,12 @@ class Team(models.Model):
         return "\n".join([keeper.get_first_name() for keeper in self.statkeepers.all()])
     get_statkeepers.short_description = "Statkeepers"
 
+    def can_keep_stats(self, user):
+        statkeepers = [statkeeper for statkeeper in self.statkeepers.all()]
+        if user == self.captain or user == self.keeper or user in statkeepers:
+            return True
+        return False
+
 
 class Score(models.Model):
 

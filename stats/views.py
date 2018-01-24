@@ -27,8 +27,13 @@ def create_game_view(request):
         if request.GET.get('game', False):
             game_id = request.GET['game']
             game = Game.objects.get(pk=game_id)
-            home_team_name = game.home_team.name
-            away_team_name = game.away_team.name
+            if game.home_team.can_keep_stats(request.user) or game.away_team.can_keep_stats(request.user):
+                home_team_name = game.home_team.name
+                away_team_name = game.away_team.name
+            else:
+                home_team_name = "Blue"
+                away_team_name = "Red"
+                game_id = None
         value_dict = dict()
         # Start counting from 1
         value_dict['home_team_name'] = home_team_name

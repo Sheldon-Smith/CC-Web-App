@@ -17,15 +17,17 @@ def view_team(request, pk):
         
     return render(request, 'game/view_team.html', {'team': team, 'percentages': per_dict})
 
-#TODO: Should Probably be in a model
+
+# TODO: Should Probably be in a model
 def get_percentage(player):
     percentage = 0
     total = 0
     for score in Score.objects.filter(user=player):
         total = total + 1
         percentage = percentage + score.get_shot_percentage()
-    if(percentage == 0): return 0
+    if percentage == 0: return 0
     return '% ' + str(round(percentage / total, 2))
+
 
 def schedule(request):
     seasons = Season.objects.all().exclude(name='Casual')
