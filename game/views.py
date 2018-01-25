@@ -26,7 +26,7 @@ def get_percentage(player):
         total = total + 1
         percentage = percentage + score.get_shot_percentage()
     if percentage == 0: return 0
-    return '% ' + str(round(percentage / total, 2))
+    return str(round(percentage / total, 2)) + "%"
 
 
 def schedule(request):
