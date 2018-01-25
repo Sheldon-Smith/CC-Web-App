@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+Game Results
+{% endblock %}
+
+
+{% block content %}
+<div class="card cc-card my-4">
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>Top Makes</th>
+                <th>Top Gays</th>
+                <th>Bottom Makes</th>
+                <th>Bottom Gays</th>
+                <th>Misses</th>
+                <th>%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+            <tr>
+                <td>
+                    <a href="{% url 'user_account' score.user.first_name score.user.pk %}">{{ score.user.get_full_name }}</a>
+                </td>
+                <td class="align-middle">{{ score.top_makes }}</td>
+                <td class="align-middle">{{ score.top_gays }}</td>
+                <td class="align-middle">{{ score.bottom_makes }}</td>
+                <td class="align-middle">{{ score.bottom_gays }}</td>
+                <td class="align-middle">{{ score.misses }}</td>
+                <td class="align-middle">{{ score.get_shot_percentage }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

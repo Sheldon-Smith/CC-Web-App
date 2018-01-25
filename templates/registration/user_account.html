@@ -39,8 +39,9 @@
                 </thead>
                 <tbody>
                     {% for score in scores %}
+
                     <tr>
-                        <td>{{ score.game }}<small class="text-muted d-block">Click for detailed stats</small></td>
+                        <td><a href="{% url 'game_stats' score.game.pk %}">{{ score.game }}<small class="text-muted d-block">Click for detailed stats</small></a></td>
                         <td>{{ score.date }}</td>
                         <td class="align-middle">{{ score.get_shot_percentage }}</td>
                         {% if user == user_account %}

@@ -79,6 +79,18 @@ class TeamListView(ListView):
     template_name = 'game/list_teams.html'
 
 
+class ScoreListView(ListView):
+
+    def get_queryset(self, **kwargs):
+        game_id = self.kwargs['pk']
+        game = Game.objects.get(pk=game_id)
+        queryset = Score.objects.filter(game=game)
+        return queryset
+
+    context_object_name = 'scores'
+    template_name = 'game/game_stats.html'
+
+
 class TeamMemberListView(ListView):
     model = Team
     context_object_name = 'teams'
