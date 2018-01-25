@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
+from core.views import home
 from game.models import Game
 from stats.game_logic import update_stats, init_game, update_shot_state, update_game_state, game_over, \
     load_game, save_game, restore_undo_state, save_undo_state
@@ -162,11 +163,12 @@ def game_state(request):
                     stats[team][player][PERCENT_IDX] = 100
                 player_total_shots = 0
                 player_total_makes = 0
-
         if session['game_state'] == 'game_over':
             game_over(session)
+            session['in_game'] = False
             save_game(request.session, session)
-            return redirect('home')
+            return JsonResponse({'game_over': 1,
+                                 'redirect': '/'})
         save_game(request.session, session)
         return JsonResponse({'current_player': current_player,
                              'stats_array': stats,
@@ -176,7 +178,8 @@ def game_state(request):
                              'away_percent': away_percent,
                              'current_team': current_team_idx,
                              'cups_hit': cups_hit,
-                             'to_drink': to_drink})
+                             'to_drink': to_drink,
+                             'game_over': 0})
 
 
 @login_required

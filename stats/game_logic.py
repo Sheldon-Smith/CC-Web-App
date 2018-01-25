@@ -73,8 +73,8 @@ def init_game(session, body):
     session['game_id'] = body['game_id']
     session['home_team_name'] = body['home_team_name']
     session['away_team_name'] = body['away_team_name']
-    session['home_team_cups'] = 100
-    session['away_team_cups'] = 100
+    session['home_team_cups'] = 10
+    session['away_team_cups'] = 10
     session['home_team_players'] = body['home_team_players']
     session['away_team_players'] = body['away_team_players']
     session['shooter_index'] = 0
@@ -238,8 +238,6 @@ def update_game_state(session, body):
 
 
 def game_over(session):
-    home_team_name = session['home_team_name']
-    away_team_name = session['away_team_name']
     game_id = session['game_id']
     if game_id == 'None':
         season = Season.objects.get(name="Casual")

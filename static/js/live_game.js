@@ -45,6 +45,10 @@ function next_round() {
         type: "GET",
         url: "/stats/game_state/",
         success: function (data) {
+            if(data['game_over']) {
+                window.location.replace(data.redirect);
+                return;
+            }
             get_state(data);
         }
     });
