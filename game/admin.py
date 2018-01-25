@@ -33,8 +33,7 @@ class TeamAdmin(admin.ModelAdmin):
                     'wins',
                     'losses',
                     'captain',
-                    'keeper',
-                    'get_statkeepers']
+                    'keeper']
 
 
 admin.site.register(Team, TeamAdmin)
