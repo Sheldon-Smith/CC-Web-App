@@ -31,9 +31,7 @@ def create_game_view(request):
                 home_team_name = game.home_team.name
                 away_team_name = game.away_team.name
             else:
-                home_team_name = "Blue"
-                away_team_name = "Red"
-                game_id = None
+                return redirect('game_stats_view', game_id)
         value_dict = dict()
         # Start counting from 1
         value_dict['home_team_name'] = home_team_name

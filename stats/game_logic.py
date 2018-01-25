@@ -90,18 +90,8 @@ def init_game(session, body):
     session['double_to_win'] = 2
     session['home_to_drink'] = 0
     session['away_to_drink'] = 0
-    session['stats_array'] = [[[0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100]],
-                              [[0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100],
-                               [0, 0, 0, 0, 0, 100]]]
+    stats_array = [[0, 0, 0, 0, 0, 100] for i in range(session['num_players'])]
+    session['stats_array'] = [stats_array, stats_array]
     session['undo_state'] = []
     session['undo'] = 1
 
