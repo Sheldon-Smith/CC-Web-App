@@ -65,6 +65,7 @@ def restore_undo_state(django_session):
 
 
 def save_undo_state(django_session, game_session):
+    game_session['undo_state'] = []
     django_session['game']['undo_state'] = copy.deepcopy(game_session)
 
 
