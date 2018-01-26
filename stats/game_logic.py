@@ -251,6 +251,16 @@ def game_over(session):
         home_team = game.home_team
         away_team = game.away_team
         season = game.season
+    game.home_cups = session['home_cups']
+    game.away_cups = session['away_cups']
+    if session['home_cups'] > session['away_cups']:
+        winner = home_team
+        loser = away_team
+    else:
+        winner = away_team
+        loser = home_team
+    game.winner = winner
+    game.loser = loser
     stats_array = session['stats_array']
     home_away = ['home_team_players', 'away_team_players']
     home_away_objs = [home_team, away_team]
