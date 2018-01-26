@@ -73,8 +73,8 @@ def init_game(session, body):
     session['game_id'] = body['game_id']
     session['home_team_name'] = body['home_team_name']
     session['away_team_name'] = body['away_team_name']
-    session['home_team_cups'] = 100
-    session['away_team_cups'] = 100
+    session['home_team_cups'] = 10
+    session['away_team_cups'] = 10
     session['home_team_players'] = body['home_team_players']
     session['away_team_players'] = body['away_team_players']
     session['shooter_index'] = 0
@@ -251,9 +251,9 @@ def game_over(session):
         home_team = game.home_team
         away_team = game.away_team
         season = game.season
-    game.home_cups = session['home_cups']
-    game.away_cups = session['away_cups']
-    if session['home_cups'] > session['away_cups']:
+    game.home_cups = session['home_team_cups']
+    game.away_cups = session['away_team_cups']
+    if session['home_team_cups'] > session['away_team_cups']:
         winner = home_team
         loser = away_team
     else:
