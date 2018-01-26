@@ -96,22 +96,30 @@ class Score(models.Model):
     game = models.ForeignKey('Game', related_name='score')
 
     def get_shot_percentage(self):
-        makes = self.top_makes + self.bottom_makes + self.top_gays + self.bottom_gays
-        total_shots = makes + self.misses
+        total_shots = self.total_makes() + self.misses
         # TODO Avoid div by zero - probably a method that does this more elegantly
         if total_shots == 0:
             total_shots = 1
-        return int(makes/total_shots*100)
+        return int(self.total_makes()/total_shots*100)
+
+    def total_makes(self):
+        return self.top_makes + self.bottom_makes + self.top_gays + self.bottom_gays
 
 
 class Game(models.Model):
 
     home_team = models.ForeignKey(Team, related_name='home_team')
     away_team = models.ForeignKey(Team, related_name='away_team')
+    home_cups = models.IntegerField(blank=True, null=True)
+    away_cups = models.IntegerField(blank=True, null=True)
+    winner = models.ForeignKey(Team, related_name='winner')
+    loser = models.ForeignKey(Team, related_name='loser')
     season = models.ForeignKey(Season)
     week = models.IntegerField(blank=True, null=True)
     public = models.BooleanField(_('Public'), default=True)
     playoff = models.BooleanField(_('Playoff game'), default=False)
+    played = models.BooleanField(_('Played'), default=False)
+    scrimmage = models.BooleanField(_('Scrimmage'), default=False)
 
     def __str__(self):
         return "%s vs %s" % (self.home_team, self.away_team)

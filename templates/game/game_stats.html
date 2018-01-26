@@ -5,8 +5,23 @@ Game Results
 
 
 {% block content %}
+
+<div class="card cc-card my-4">
+    <div class="card-body">
+        <div class="row">
+        <h3 class="col-md-6" align="center">Winner: {{ game.winner }}</h3>
+        <h3 class="col-md-6" align="center">Loser: {{ game.loser }}</h3>
+        </div>
+        <div class="row">
+        <h3 class="col-md-12" align="center">Score: {{ game.home_team }} - {{ game.home_cups }} | {{ game.away_team }} - {{ game.away_cups }}</h3>
+        </div>
+    </div>
+</div>
 <div class="card cc-card my-4 table-responsive">
-    <table class="table">
+    <div class="card-header">
+        <h5>{{ game.home_team }}</h5>
+    </div>
+    <table class="table table-striped table-hover">
         <thead class="thead-inverse">
             <tr>
                 <th>Name</th>
@@ -14,12 +29,13 @@ Game Results
                 <th>Top Gays</th>
                 <th>Bottom Makes</th>
                 <th>Bottom Gays</th>
+                <th>Total Shots</th>
                 <th>Misses</th>
                 <th>%</th>
             </tr>
         </thead>
         <tbody>
-            {% for score in scores %}
+            {% for score in home_scores %}
             <tr>
                 <td>
                     <a href="{% url 'user_account' score.user.first_name score.user.pk %}">{{ score.user.get_full_name }}</a>
@@ -29,6 +45,42 @@ Game Results
                 <td class="align-middle">{{ score.bottom_makes }}</td>
                 <td class="align-middle">{{ score.bottom_gays }}</td>
                 <td class="align-middle">{{ score.misses }}</td>
+                <td class="align-middle">{{ score.total_shots }}</td>
+                <td class="align-middle">{{ score.get_shot_percentage }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="card cc-card my-4 table-responsive">
+    <div class="card-header">
+        <h5>{{ game.away_team }}</h5>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>Top Makes</th>
+                <th>Top Gays</th>
+                <th>Bottom Makes</th>
+                <th>Bottom Gays</th>
+                <th>Total Shots</th>
+                <th>Misses</th>
+                <th>%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in away_scores %}
+            <tr>
+                <td>
+                    <a href="{% url 'user_account' score.user.first_name score.user.pk %}">{{ score.user.get_full_name }}</a>
+                </td>
+                <td class="align-middle">{{ score.top_makes }}</td>
+                <td class="align-middle">{{ score.top_gays }}</td>
+                <td class="align-middle">{{ score.bottom_makes }}</td>
+                <td class="align-middle">{{ score.bottom_gays }}</td>
+                <td class="align-middle">{{ score.misses }}</td>
+                <td class="align-middle">{{ score.total_shots }}</td>
                 <td class="align-middle">{{ score.get_shot_percentage }}</td>
             </tr>
         {% endfor %}

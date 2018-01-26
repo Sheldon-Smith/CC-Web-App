@@ -79,16 +79,19 @@ class TeamListView(ListView):
     template_name = 'game/list_teams.html'
 
 
-class ScoreListView(ListView):
+def game_stats_view(request, pk):
 
-    def get_queryset(self, **kwargs):
-        game_id = self.kwargs['pk']
-        game = Game.objects.get(pk=game_id)
-        queryset = Score.objects.filter(game=game)
-        return queryset
+    game = get_object_or_404(Game, pk=pk)
+    home_scores = []
+    away_scores = []
+    for player in game.home_team.players.all():
+        home_scores += list(Score.objects.filter(game=game, user=player))
+    for player in game.away_team.players.all():
+        away_scores += list(Score.objects.filter(game=game, user=player))
 
-    context_object_name = 'scores'
-    template_name = 'game/game_stats.html'
+    return render(request, 'game/game_stats.html', {'home_scores': home_scores,
+                                                    'away_scores': away_scores,
+                                                    'game': game})
 
 
 class TeamMemberListView(ListView):
