@@ -42,11 +42,11 @@ class ScoreAdmin(admin.ModelAdmin):
                     'game']
 
 
-class ScoreInline(admin.ModelAdmin):
+class ScoreInline(admin.TabularInline):
     model = Score
 
 
-class GameAdmin(admin.TabularInline):
+class GameAdmin(admin.ModelAdmin):
 
     inlines = [
         ScoreInline,
