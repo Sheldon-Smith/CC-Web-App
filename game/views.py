@@ -12,7 +12,7 @@ from game.models import Team, Game, Season, Score
 def view_team(request, pk):
     team = get_object_or_404(Team, pk=pk)
     per_dict = {}
-    for player in team.players.all():
+    for player in team.players.all().order_by('first_name'):
         per_dict[player.id] = get_percentage(player)
         
     return render(request, 'game/view_team.html', {'team': team, 'percentages': per_dict})
@@ -77,6 +77,7 @@ class TeamListView(ListView):
     queryset = Team.objects.exclude(name="Blue").exclude(name="Red")
     context_object_name = 'teams'
     template_name = 'game/list_teams.html'
+    ordering = ['-wins']
 
 
 def game_stats_view(request, pk):
@@ -98,9 +99,11 @@ class TeamMemberListView(ListView):
     model = Team
     context_object_name = 'teams'
     template_name = 'game/view_team.html'
+    ordering = 'first_name'
 
 
 class PlayerListView(ListView):
     model = User
     context_object_name = 'players'
     template_name = 'game/list_players.html'
+    ordering = 'first_name'

@@ -39,13 +39,13 @@ def get_players(request):
         if request.GET['home_team_name'] != "Blue":
             home_team_name = request.GET['home_team_name']
             away_team_name = request.GET['away_team_name']
-            return JsonResponse({'home_players': list(User.objects.filter(team_member__team__name=home_team_name)
+            return JsonResponse({'home_players': list(User.objects.filter(team_member__team__name=home_team_name).order_by('first_name')
                                                       .values_list('first_name', 'last_name', 'pk')),
-                                 'away_players': list(User.objects.filter(team_member__team__name=away_team_name)
+                                 'away_players': list(User.objects.filter(team_member__team__name=away_team_name).order_by('first_name')
                                                       .values_list('first_name', 'last_name', 'pk'))
                                 })
-        return JsonResponse({'home_players': list(User.objects.values_list('first_name', 'last_name', 'pk')),
-                             'away_players': list(User.objects.values_list('first_name', 'last_name', 'pk'))})
+        return JsonResponse({'home_players': list(User.objects.order_by('first_name').values_list('first_name', 'last_name', 'pk')),
+                             'away_players': list(User.objects.order_by('first_name').values_list('first_name', 'last_name', 'pk'))})
 
 
 def user_account(request, name, pk):
