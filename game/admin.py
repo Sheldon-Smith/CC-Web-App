@@ -41,8 +41,16 @@ class ScoreAdmin(admin.ModelAdmin):
     list_display = ['user',
                     'game']
 
-    list_filter = ['user',
-                   'game']
+
+class ScoreInline(admin.ModelAdmin):
+    model = Score
+
+
+class GameAdmin(admin.ModelAdmin):
+
+    inlines = [
+        ScoreInline,
+    ]
 
 
 admin.site.register(Team, TeamAdmin)
