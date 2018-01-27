@@ -35,7 +35,7 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('click', '.game', function () {
+    $(document).on('click touchstart', '.game', function () {
         window.location = $(this).data('href');
     });
 
