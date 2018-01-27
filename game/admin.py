@@ -55,5 +55,5 @@ class GameAdmin(admin.ModelAdmin):
 
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Season, SeasonAdmin)
-admin.site.register(Game)
+admin.site.register(Game, GameAdmin)
 admin.site.register(Score, ScoreAdmin)
