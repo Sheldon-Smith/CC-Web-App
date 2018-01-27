@@ -28,7 +28,9 @@ def create_game_view(request):
         if request.GET.get('game', False):
             game_id = request.GET['game']
             game = Game.objects.get(pk=game_id)
-            if game.home_team.can_keep_stats(request.user) or game.away_team.can_keep_stats(request.user):
+            if (game.home_team.can_keep_stats(request.user)
+                    or game.away_team.can_keep_stats(request.user)) \
+                    and not game.played:
                 home_team_name = game.home_team.name
                 away_team_name = game.away_team.name
             else:
