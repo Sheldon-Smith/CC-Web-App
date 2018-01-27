@@ -36,7 +36,16 @@ class TeamAdmin(admin.ModelAdmin):
                     'keeper']
 
 
+class ScoreAdmin(admin.ModelAdmin):
+
+    list_display = ['user',
+                    'game']
+
+    list_filter = ['user',
+                   'game']
+
+
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Season, SeasonAdmin)
 admin.site.register(Game)
-admin.site.register(Score)
+admin.site.register(Score, ScoreAdmin)
