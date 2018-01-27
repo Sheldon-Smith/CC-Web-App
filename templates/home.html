@@ -1,1 +1,17 @@
 {% extends 'base.html' %}
+
+{% block content %}
+{% for announcement in announcements %}
+<div class="card cc-card my-4">
+    <div class="card-header">
+        <h5>{{ announcement.title }}</h5>
+    </div>
+    <div class="card-body">
+        <p>{{ announcement.content|urlize|linebreaks}}</p>
+    </div>
+    <div class="card-footer">
+        {{ announcement.date }}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

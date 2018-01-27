@@ -1,7 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from core.models import Announcement
+
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    announcements = Announcement.objects.all()
+    return render(request, 'home.html', {'announcements': announcements})
