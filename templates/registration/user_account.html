@@ -30,7 +30,12 @@
                 <thead class="thead-inverse">
                     <tr>
                         <th>Game</th>
-                        <th>Date</th>
+                        <th>Top Makes</th>
+                        <th>Top Gays</th>
+                        <th>Bottom Makes</th>
+                        <th>Bottom Gays</th>
+                        <th>Total Makes</th>
+                        <th>Misses</th>
                         <th>Shot Percentage</th>
                         {% if user == user_account %}
                             <th>Delete</th>
@@ -42,7 +47,12 @@
 
                     <tr>
                         <td><a href="{% url 'game_stats' score.game.pk %}">{{ score.game }}<small class="text-muted d-block">Click for detailed stats</small></a></td>
-                        <td>{{ score.date }}</td>
+                        <td class="align-middle">{{ score.top_makes }}</td>
+                        <td class="align-middle">{{ score.top_gays }}</td>
+                        <td class="align-middle">{{ score.bottom_makes }}</td>
+                        <td class="align-middle">{{ score.bottom_gays }}</td>
+                        <td class="align-middle">{{ score.total_makes }}</td>
+                        <td class="align-middle">{{ score.misses }}</td>
                         <td class="align-middle">{{ score.get_shot_percentage }}</td>
                         {% if user == user_account %}
                         <td class="align-middle"><button class="btn btn-danger delete_score" id="{{ score.pk }}">Delete</button></td>
