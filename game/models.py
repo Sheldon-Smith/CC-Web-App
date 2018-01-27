@@ -95,6 +95,12 @@ class Score(models.Model):
     date = models.DateField(_("Date"), default=datetime.date.today)
     game = models.ForeignKey('Game', related_name='score')
 
+    def __str__(self):
+        return self.user.get_full_name()
+
+    def __unicode__(self):
+        return self.user.get_full_name()
+
     def get_shot_percentage(self):
         total_shots = self.total_makes() + self.misses
         # TODO Avoid div by zero - probably a method that does this more elegantly
