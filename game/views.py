@@ -86,9 +86,9 @@ def game_stats_view(request, pk):
     home_scores = []
     away_scores = []
     for player in game.home_team.players.all():
-        home_scores += list(Score.objects.filter(game=game, user=player).order_by('-total_makes'))
+        home_scores += list(Score.objects.filter(game=game, user=player).order_by('-top_makes'))
     for player in game.away_team.players.all():
-        away_scores += list(Score.objects.filter(game=game, user=player).order_by('-total_makes'))
+        away_scores += list(Score.objects.filter(game=game, user=player).order_by('-top_makes'))
 
     return render(request, 'game/game_stats.html', {'home_scores': home_scores,
                                                     'away_scores': away_scores,
