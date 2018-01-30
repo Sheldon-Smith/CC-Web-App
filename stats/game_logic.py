@@ -263,6 +263,7 @@ def game_over(session):
     game.winner = winner
     game.loser = loser
     game.played = True
+    game.update()
     stats_array = session['stats_array']
     home_away = ['home_team_players', 'away_team_players']
     home_away_objs = [home_team, away_team]
