@@ -1,7 +1,8 @@
+import csv
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
@@ -14,8 +15,30 @@ def view_team(request, pk):
     per_dict = {}
     for player in team.players.all().order_by('first_name'):
         per_dict[player.id] = get_percentage(player)
-        
+
     return render(request, 'game/view_team.html', {'team': team, 'percentages': per_dict})
+
+
+def export_to_csv(request):
+    pk = request.GET.get('pk', None)
+    if pk:
+        season = Season.objects.get(pk=pk)
+    else:
+        season = Season.objects.get(name='Casual')
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="stats.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Game', 'Player', 'Top Makes', 'Top Gays', 'Bottom Makes', 'Bottom Gays',
+                     'Total Makes', 'Misses', 'Shot Percentage'])
+    scores = Score.objects.filter(game__season=season)
+    for score in scores:
+        writer.writerow([score.game, score.user.get_full_name(), score.top_makes, score.top_gays,
+                         score.bottom_makes, score.bottom_gays, score.total_makes(), score.misses,
+                         score.get_shot_percentage()])
+
+    return response
 
 
 # TODO: Should Probably be in a model
@@ -81,7 +104,6 @@ class TeamListView(ListView):
 
 
 def game_stats_view(request, pk):
-
     game = get_object_or_404(Game, pk=pk)
     home_scores = []
     away_scores = []

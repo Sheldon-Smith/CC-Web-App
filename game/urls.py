@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^schedule/$', team_views.schedule, name='schedule'),
     url(r'^schedule/update_schedule/$', team_views.update_schedule, name='update_schedule'),
     url(r'^teams/(?P<pk>\d+)/team_schedule/$', team_views.team_schedule, name='team_schedule'),
-    url(r'^game_stats/(?P<pk>\d+)/$', team_views.game_stats_view, name='game_stats')
+    url(r'^game_stats/(?P<pk>\d+)/$', team_views.game_stats_view, name='game_stats'),
+    url(r'^export_stats/$', team_views.export_to_csv, name='export_stats')
 ]

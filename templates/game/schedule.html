@@ -39,6 +39,7 @@ Schedule
             <li class="page-item {% if week == 1 %}active{% endif %}" id="{{ week }}"><a href="#" class="page-link week-page">{{ week }}</a></li>
             {% endfor %}
         </ul>
+        <a class="btn btn-info btn-sm" id="export" href="{% url 'export_stats' %}">Export stats</a>
     </div>
 </div>
 {% endblock %}

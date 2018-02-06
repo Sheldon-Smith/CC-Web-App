@@ -19,6 +19,7 @@ function update_schedule (season, week, schedule) {
             });
             week = $('#' + id);
             week.attr('class', 'page-item active');
+            $("#export").attr('href', '/export_stats?pk=' + season)
         }
     });
 }
