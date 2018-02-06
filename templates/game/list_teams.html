@@ -12,6 +12,7 @@ Teams
                 <th>Name</th>
                 <th>Wins</th>
                 <th>Losses</th>
+                <th>Pace</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@ Teams
                 </td>
                 <td class="align-middle">{{ team.wins }}</td>
                 <td class="align-middle">{{ team.losses }}</td>
+                <td class="align-middle">{{ team.get_pace }}</td>
             </tr>
         {% endfor %}
         </tbody>

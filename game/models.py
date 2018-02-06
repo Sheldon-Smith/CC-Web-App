@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.db.models import Q
 
 from account.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -82,6 +83,20 @@ class Team(models.Model):
         if user == self.captain or user == self.keeper or user in statkeepers:
             return True
         return False
+
+    def get_pace(self):
+        games = Game.objects.filter(Q(away_team=self) | Q(home_team=self))
+        total_misses = 0
+        pace = 0
+        total_cups = 100
+        for game in games:
+            scores = Score.objects.filter(game=game).filter(user__team_member__team=self)
+            for score in scores:
+                total_misses += score.misses
+            pace += total_cups-total_misses
+            total_misses = 0
+        return pace/games.count()
+
 
 
 class Score(models.Model):
