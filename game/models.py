@@ -85,7 +85,7 @@ class Team(models.Model):
         return False
 
     def get_pace(self):
-        games = Game.objects.filter(Q(away_team=self) | Q(home_team=self))
+        games = Game.objects.filter(Q(away_team=self) | Q(home_team=self)).filter(played=True)
         total_misses = 0
         pace = 0
         total_cups = 100
@@ -95,8 +95,9 @@ class Team(models.Model):
                 total_misses += score.misses
             pace += total_cups-total_misses
             total_misses = 0
-        return pace/games.count()
-
+        if games.count():
+            return pace/games.count()
+        return pace
 
 
 class Score(models.Model):
