@@ -94,8 +94,8 @@ class Team(models.Model):
                 total_misses += score.misses
                 total_makes += score.total_makes()
         if total_misses: # Avoid div by 0
-            return total_makes/total_misses
-        return 0.0
+            return int(total_makes/(total_misses+total_makes)*100)
+        return 0
 
 
 class Score(models.Model):
