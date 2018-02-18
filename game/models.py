@@ -84,20 +84,18 @@ class Team(models.Model):
             return True
         return False
 
-    def get_pace(self):
+    def get_shot_percentage(self):
         games = Game.objects.filter(Q(away_team=self) | Q(home_team=self)).filter(played=True)
         total_misses = 0
-        pace = 0
-        total_cups = 100
+        total_makes = 0
         for game in games:
             scores = Score.objects.filter(game=game).filter(user__team_member__team=self)
             for score in scores:
                 total_misses += score.misses
-            pace += total_cups-total_misses
-            total_misses = 0
-        if games.count():
-            return pace/games.count()
-        return pace
+                total_makes += score.total_makes()
+        if total_misses: # Avoid div by 0
+            return total_makes/total_misses
+        return 0.0
 
 
 class Score(models.Model):
