@@ -29,11 +29,11 @@ def export_to_csv(request):
     response['Content-Disposition'] = 'attachment; filename="stats.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Game', 'Player', 'Top Makes', 'Top Gays', 'Bottom Makes', 'Bottom Gays',
+    writer.writerow(['Week', 'Game', 'Player', 'Top Makes', 'Top Gays', 'Bottom Makes', 'Bottom Gays',
                      'Total Makes', 'Misses', 'Shot Percentage'])
     scores = Score.objects.filter(game__season=season)
     for score in scores:
-        writer.writerow([score.game, score.user.get_full_name(), score.top_makes, score.top_gays,
+        writer.writerow([score.game.week, score.game, score.user.get_full_name(), score.top_makes, score.top_gays,
                          score.bottom_makes, score.bottom_gays, score.total_makes(), score.misses,
                          score.get_shot_percentage()])
 
