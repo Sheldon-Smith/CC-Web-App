@@ -7,7 +7,7 @@ from django.core.mail import send_mass_mail
 
 from account.models import User
 
-EMAIL = 'CC League'
+EMAIL = 'commissioner@ccleague.herokuapp.com'
 
 
 class SendEmailForm(ActionForm):
@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
 
     def send_users_mail(self, request, queryset, subject=None, body=None):
         if not subject:
-            subject = request.POST['subject']
+            subject = '[CCLeague] ' + request.POST['subject']
         if not body:
             body = request.POST['message'] + "\n - The Commissioner"
         emails = []
