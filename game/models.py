@@ -6,12 +6,15 @@ from django.db.models import Q
 from account.models import User
 from django.utils.translation import ugettext_lazy as _
 
+from game.fields import UniqueBooleanField
+
 
 class Season(models.Model):
 
     name = models.CharField(max_length=30)
     year = models.PositiveIntegerField()
     number_of_weeks = models.PositiveIntegerField(blank=True, null=True)
+    current_season = UniqueBooleanField()
 
     def __unicode__(self):
         return self.name
@@ -63,6 +66,7 @@ class Team(models.Model):
     players = models.ManyToManyField('account.User', through='TeamMember', related_name="players")
     statkeepers = models.ManyToManyField('account.User', through='Statkeeper', related_name="statkeepers" )
     division = models.CharField(max_length=4, choices=(("Pink", "Pink"), ("Blue", "Blue")), blank=True, null=True)
+    season = models.ForeignKey(Season, related_name='season', blank=True, null=True)
 
     def __unicode__(self):
         return self.get_name()

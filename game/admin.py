@@ -20,7 +20,7 @@ class SeasonAdmin(admin.ModelAdmin):
         ScheduleInline
     ]
 
-    list_display = ['name', 'year']
+    list_display = ['name', 'year', 'current_season']
 
 
 class TeamAdmin(admin.ModelAdmin):
@@ -34,6 +34,8 @@ class TeamAdmin(admin.ModelAdmin):
                     'losses',
                     'captain',
                     'keeper']
+
+    list_filter = ['season']
 
 
 class ScoreAdmin(admin.ModelAdmin):
@@ -51,6 +53,8 @@ class GameAdmin(admin.ModelAdmin):
     inlines = [
         ScoreInline,
     ]
+
+    list_filter = ['season']
 
 
 admin.site.register(Team, TeamAdmin)
