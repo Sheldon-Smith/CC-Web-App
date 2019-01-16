@@ -96,10 +96,18 @@ def get_teams(request):
 
 
 class TeamListView(ListView):
-    queryset = Team.objects.exclude(name="Blue").exclude(name="Red")
+
     context_object_name = 'teams'
     template_name = 'game/list_teams.html'
     ordering = ['-wins']
+
+    def get_queryset(self):
+        if self.kwargs.get('season', None) is not None:
+            season = Season.objects.get(self.kwargs.season)
+        else:
+            season = Season.objects.filter(current_season=True)[0]  # TODO prob a more correct way to query here
+        queryset = Team.objects.filter(season=season)
+        return queryset
 
 
 def game_stats_view(request, pk):
