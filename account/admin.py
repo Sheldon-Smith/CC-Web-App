@@ -7,7 +7,7 @@ from django.core.mail import send_mass_mail
 
 from account.models import User
 
-EMAIL = 'commissioner@ccleague.herokuapp.com'
+EMAIL = 'commissioner@ballsincups.cc'
 
 
 class SendEmailForm(ActionForm):
@@ -49,7 +49,7 @@ class UserAdmin(admin.ModelAdmin):
         rows_updated = queryset.update(is_active=True)
         self.send_users_mail(request, queryset, "Your account has been activated",
                              "Your account has been reviewed and determined to be a valid member of the CCLeague. "
-                             "You may now login to the site at http://www.ccleague.herokuapp.com")
+                             "You may now login to the site at http://www.ballsincups.cc")
         self.message_user(request, "Successfully marked %s user(s) as active." % rows_updated)
     set_as_active.short_description = "Set selected users as active"
 
