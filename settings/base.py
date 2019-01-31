@@ -28,7 +28,7 @@ SENDGRID_SANDBOX_MODE = DEBUG
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', '.ballsincups.cc']
 
 
 # Application definition
@@ -42,6 +42,7 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
 
     'widget_tweaks',
+    'rest_framework',
     #'debug_toolbar'
 ]
 
