@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from core.views import home
-from game.models import Game
+from game.models import Game, Statkeeper, Season
 from stats.game_logic import update_stats, init_game, update_shot_state, update_game_state, game_over, \
     load_game, save_game, restore_undo_state, save_undo_state
 
@@ -22,6 +22,11 @@ MISS = 4
 def create_game_view(request):
     session = load_game(request.session)
     if not session.get('in_game', False):
+        current_season = Season.objects.get(current_season=True)
+        # Bounce current season statkeepers to the schedule
+        if not request.GET.get('game', False) and\
+                Statkeeper.objects.filter(statkeeper__id=request.user.id).filter(season=current_season):
+            return redirect('schedule')
         home_team_name = "Blue"
         away_team_name = "Red"
         game_id = None
