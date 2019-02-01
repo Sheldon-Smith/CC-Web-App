@@ -240,10 +240,12 @@ def update_game_state(session, body):
 
 def game_over(session):
     game_id = session['game_id']
+    home_team_name = session['home_team_name']
+    away_team_name = session['away_team_name']
     if game_id == 'None':
         season = Season.objects.get(name="Casual")
-        home_team = Team.objects.get(name='Blue')
-        away_team = Team.objects.get(name='Red')
+        home_team = Team.objects.create(name=home_team_name)
+        away_team = Team.objects.create(name=away_team_name)
         game = Game.objects.create(home_team=home_team,
                                    away_team=away_team,
                                    season=season)

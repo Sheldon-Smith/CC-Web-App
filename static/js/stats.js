@@ -42,8 +42,7 @@ $(document).ready(function () {
    $.ajax({
        type: "GET",
        url: '/get_players',
-       data: {'home_team_name': $('#home_team_name').text(),
-              'away_team_name': $('#away_team_name').text()},
+       data: {'game_id': $("#game_id").val()},
        success: function (data) {
            home_players = data['home_players'];
            away_players = data['away_players'];
@@ -83,13 +82,25 @@ $(document).ready(function () {
           homePlayers.push([homePlayer.text(), homePlayer.val()]);
           awayPlayers.push([awayPlayer.text(), awayPlayer.val()]);
         }
+        var home_team_name = $("#input_home_team_name");
+        if (home_team_name.length) {
+            home_team_name = home_team_name.val();
+        } else {
+            home_team_name = $("#home_team_name").text();
+        }
+        var away_team_name = $("#input_away_team_name");
+        if (away_team_name.length) {
+            away_team_name = away_team_name.val();
+        } else {
+            away_team_name = $("#away_team_name").text();
+        }
         $.ajax({
             type: "POST",
             url: '/stats/init_game_logic/',
             data: JSON.stringify({'home_team_players': homePlayers,
                    'away_team_players': awayPlayers,
-                   'home_team_name': $("#home_team_name").text(),
-                   'away_team_name': $("#away_team_name").text(),
+                   'home_team_name': home_team_name,
+                   'away_team_name': away_team_name,
                    'game_id': $("#game_id").val(),
                    'first': $("#first option:selected")
                 }),

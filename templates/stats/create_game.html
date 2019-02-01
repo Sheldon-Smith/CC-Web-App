@@ -9,7 +9,10 @@
         <div class="row" id="team_row">
             <div class="col-md-6" id="home_team_col">
                 <div class="row form-group">
-                    <div class="col-md-12 bg-info" id="home_team_name">{{ home_team_name }}</div>
+                    <div class="col-md-12 bg-info" id="home_team_name">{% if home_team_name %}{{ home_team_name }}
+                    {% else %}<input type="text" class="form-control" id="input_home_team_name" placeholder="Blue" value="Blue">
+                    {% endif %}
+                    </div>
                 </div>
                 {% for i in num_iter %}
                     <div class="row form-group" id="home_player{{ i }}_row">
@@ -25,7 +28,10 @@
             </div>
             <div class="col-md-6" id="away_team_col">
                 <div class="row form-group">
-                    <div class="col-md-12 bg-danger" id="away_team_name">{{ away_team_name }}</div>
+                    <div class="col-md-12 bg-danger" id="away_team_name">{% if away_team_name %}{{ away_team_name }}
+                    {% else %}<input type="text" class="form-control" id="input_away_team_name" placeholder="Red" value="Red">
+                    {% endif %}
+                    </div>
                 </div>
                 {% for i in num_iter %}
                     <div class="row form-group" id="away_player{{ i }}_row">
@@ -52,8 +58,8 @@
             <div class="col-md-12">
                             <label>Select which team will shoot first
                                 <select id="first" class="form-control">
-                                    <option value="0">{{ home_team_name }}</option>
-                                    <option value="1">{{ away_team_name }}</option>
+                                    <option value="0">{% if home_team_name %}{{ home_team_name }}{% else %}Left{% endif %}</option>
+                                    <option value="1">{% if away_team_name %}{{ away_team_name }}{% else %}Right{% endif %}</option>
                                 </select>
                             </label>
             </div>

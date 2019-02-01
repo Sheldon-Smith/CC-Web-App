@@ -27,8 +27,8 @@ def create_game_view(request):
         if not request.GET.get('game', False) and\
                 Statkeeper.objects.filter(statkeeper__id=request.user.id).filter(season=current_season):
             return redirect('schedule')
-        home_team_name = "Blue"
-        away_team_name = "Red"
+        home_team_name = None
+        away_team_name = None
         game_id = None
         if request.GET.get('game', False):
             game_id = request.GET['game']

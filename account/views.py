@@ -9,8 +9,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.shortcuts import render
 
 from account.models import User
-from game.models import Score
-
+from game.models import Score, Game
 
 EMAIL_SUBJECT = '[CCLeague] Account Creation'
 EMAIL_CONTENT = 'Thank you for creating a CCLeague account. ' \
@@ -32,20 +31,20 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-
+# TODO this view doesnt belong here
 @login_required
 def get_players(request):
     if request.method == 'GET':
-        if request.GET['home_team_name'] != "Blue":
-            home_team_name = request.GET['home_team_name']
-            away_team_name = request.GET['away_team_name']
-            return JsonResponse({'home_players': list(User.objects.filter(team_member__team__name=home_team_name).order_by('first_name')
+        if request.GET['game_id'] != 'None':
+            game = Game.objects.get(pk=request.GET['game_id'])
+            return JsonResponse({'home_players': list(game.home_team.players.order_by('first_name')
                                                       .values_list('first_name', 'last_name', 'pk')),
-                                 'away_players': list(User.objects.filter(team_member__team__name=away_team_name).order_by('first_name')
+                                 'away_players': list(game.away_team.players.order_by('first_name')
                                                       .values_list('first_name', 'last_name', 'pk'))
                                 })
-        return JsonResponse({'home_players': list(User.objects.order_by('first_name').values_list('first_name', 'last_name', 'pk')),
-                             'away_players': list(User.objects.order_by('first_name').values_list('first_name', 'last_name', 'pk'))})
+        players = list(User.objects.order_by('first_name').values_list('first_name', 'last_name', 'pk'))
+        return JsonResponse({'home_players': players,
+                             'away_players': players})
 
 
 def user_account(request, name, pk):
