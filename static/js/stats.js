@@ -90,7 +90,8 @@ $(document).ready(function () {
                    'away_team_players': awayPlayers,
                    'home_team_name': $("#home_team_name").text(),
                    'away_team_name': $("#away_team_name").text(),
-                   'game_id': $("#game_id").val()
+                   'game_id': $("#game_id").val(),
+                   'first': $("#first option:selected")
                 }),
             success: function (data) {
                 window.location.href = data.redirect;
