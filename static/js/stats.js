@@ -102,7 +102,7 @@ $(document).ready(function () {
                    'home_team_name': home_team_name,
                    'away_team_name': away_team_name,
                    'game_id': $("#game_id").val(),
-                   'first': $("#first option:selected")
+                   'first': $("#first option:selected").val()
                 }),
             success: function (data) {
                 window.location.href = data.redirect;

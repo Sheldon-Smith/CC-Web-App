@@ -79,7 +79,7 @@ def init_game(session, body):
     session['home_team_players'] = body['home_team_players']
     session['away_team_players'] = body['away_team_players']
     session['shooter_index'] = 0
-    session['current_team_index'] = body.get('first', 0)  # 0 for home, 1 for away -- default to home
+    session['current_team_index'] = int(body.get('first', 0))  # 0 for home, 1 for away -- default to home
     session['shot_state'] = 'shooting'
     session['game_state'] = 'normal'
     session['double_stuff'] = 0
